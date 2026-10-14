@@ -23,9 +23,56 @@ def add_expense():
     writer.writerow([date.today(),category,description,amount])
   print("Expenses added successfully!")
 def view_expenses():
-  with open(FILE_NAME,"r",new_line=""
-
-
+  with open(FILE_NAME,"r",new_line="")as file:
+    expenses=list(csv.DictReader(file))
+  if not in expenses:
+    print("No Expenses recorded yet.")
+    return 
+  print("\n--------All Expenses---------")
+  for expense in expenses:
+    print(f"Date:{expense['Date']}|"f"Category:{expense['Category']}|"f"Description:{expense['Description']}|"f"Amount:{float(expense['Amount']):.2f}")
+def show_total():
+  with open(FILE_NAME,"r",newline="")as file:
+    expenses=list(csv.DictReader(file))
+    total=sum(float(expense["Amount"])
+    for expense in expenses:
+        print(f"\n Total Expenses:{total:.2f}")
+def expense_by_category():
+  category=input("Enter category to search:")strip().lower()
+  with open(FILE_NAME,"r",newline="")as file:
+    expenses=list(csv.DictReader(file))
+    matching=[expense for expense in expenses if expense["Category"].lower() ==category]
+    if not matching:
+      print("No expenses found in this category.")
+      return
+      total=sum(float(expense["Amount"])for expense in matching)
+      print(f"\n------{category.title()}Expenses-----")
+      for expense in matching:
+            print(f"Date:{expense['Date']}|"f"Description:{expense['Description']}|"f"Amount:{float(expense['Amount']):.2f}")
+def main():
+  intialize_file()
+  while True:
+    print("\n=======PERSONAL EXPENSE TRACKER======")
+    print("1.Add Expense")
+    print("2.View all Expenses")
+    print("3.Show Total Expenses")
+    print("4.Search by Category")
+    print("5.Exit")
+    choice=input("choose an option(1-5):").strip()
+    if choice=="1":
+      add_expense()
+    elif choice=="2":
+      view_expenses()
+    elif choice=="3":
+      show_toal1()
+    elif choice=="4":
+      expenses_by_category()
+    elif choice=="5":
+      print("Thank you for using Expense Tracker!")
+    else:
+      print("Invalid choice.please enter 1-5.")
+if __name__ =="__main__":
+  main()
 
 
 
