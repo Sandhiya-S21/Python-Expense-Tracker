@@ -23,9 +23,9 @@ def add_expense():
     writer.writerow([date.today(),category,description,amount])
   print("Expenses added successfully!")
 def view_expenses():
-  with open(FILE_NAME,"r",new_line="")as file:
+  with open(FILE_NAME,"r",newline="")as file:
     expenses=list(csv.DictReader(file))
-  if not in expenses:
+  if not expenses:
     print("No Expenses recorded yet.")
     return 
   print("\n--------All Expenses---------")
@@ -35,20 +35,24 @@ def show_total():
   with open(FILE_NAME,"r",newline="")as file:
     expenses=list(csv.DictReader(file))
     total=sum(float(expense["Amount"])
-    for expense in expenses:
-        print(f"\n Total Expenses:{total:.2f}")
-def expense_by_category():
-  category=input("Enter category to search:")strip().lower()
+    for expense in expenses)
+    print(f"\n Total Expenses:{total:.2f}")
+def expenses_by_category():
+  category=input("Enter category to search:").strip().lower()
   with open(FILE_NAME,"r",newline="")as file:
     expenses=list(csv.DictReader(file))
-    matching=[expense for expense in expenses if expense["Category"].lower() ==category]
+    matching=[expense for expense in expenses
+        if expense["Category"].strip().lower() ==category]
     if not matching:
-      print("No expenses found in this category.")
-      return
-      total=sum(float(expense["Amount"])for expense in matching)
-      print(f"\n------{category.title()}Expenses-----")
-      for expense in matching:
-            print(f"Date:{expense['Date']}|"f"Description:{expense['Description']}|"f"Amount:{float(expense['Amount']):.2f}")
+          print("No expenses found in this category.")
+          return
+    total=0
+    print(f"\n------{category.title()}Expenses-----")
+    for expense in matching:
+        amount=float(expense["Amount"])
+        total+=amount
+        print(f"Date:{expense['Date']}|"f"Description:{expense['Description']}|"f"Amount:{float(expense['Amount']):.2f}")
+    print(f"Category Total:{total:.2f}")
 def main():
   intialize_file()
   while True:
@@ -64,7 +68,7 @@ def main():
     elif choice=="2":
       view_expenses()
     elif choice=="3":
-      show_toal1()
+      show_total()
     elif choice=="4":
       expenses_by_category()
     elif choice=="5":
